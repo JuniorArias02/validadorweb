@@ -10,12 +10,35 @@ interface Props {
 }
 
 export const TablaContactos: React.FC<Props> = ({ datosPaginados, cargando, params, alCambiarParams }) => {
+  const [telefonoBusqueda, setTelefonoBusqueda] = React.useState(params.telefono || '');
+
+  React.useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (telefonoBusqueda !== (params.telefono || '')) {
+        alCambiarParams({ telefono: telefonoBusqueda || undefined, pagina: 1 });
+      }
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, [telefonoBusqueda, alCambiarParams, params.telefono]);
+
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-      <div className="px-6 py-4 border-b border-slate-100 bg-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="px-6 py-4 border-b border-slate-100 bg-slate-50 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
         <h3 className="font-semibold text-slate-700">Lista de Contactos</h3>
         
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
+          <div className="flex items-center gap-2 border border-slate-200 rounded-lg bg-white px-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input 
+              type="text"
+              placeholder="Buscar teléfono..."
+              className="text-sm border-none focus:ring-0 p-2 w-36 bg-transparent text-slate-600 placeholder-slate-400 outline-none"
+              value={telefonoBusqueda}
+              onChange={(e) => setTelefonoBusqueda(e.target.value)}
+            />
+          </div>
           <select 
             className="text-sm border-slate-200 rounded-lg text-slate-600 focus:ring-blue-500 focus:border-blue-500 p-2 border"
             value={params.estadoValidacion || ''}

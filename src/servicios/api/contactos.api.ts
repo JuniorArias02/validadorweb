@@ -6,6 +6,7 @@ export interface ParametrosContactos {
   limite?: number;
   estadoValidacion?: string;
   estadoWhatsapp?: string;
+  telefono?: string;
 }
 
 export const obtenerContactos = async (
@@ -16,6 +17,7 @@ export const obtenerContactos = async (
   if (params.limite) queryParams.append('limite', params.limite.toString());
   if (params.estadoValidacion) queryParams.append('estadoValidacion', params.estadoValidacion);
   if (params.estadoWhatsapp) queryParams.append('estadoWhatsapp', params.estadoWhatsapp);
+  if (params.telefono) queryParams.append('telefono', params.telefono);
 
   const queryString = queryParams.toString() ? `?${queryParams.toString()}` : '';
   
